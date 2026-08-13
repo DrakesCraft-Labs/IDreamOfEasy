@@ -4,7 +4,6 @@ import com.github.drakescraft_labs.slimefun4.api.SlimefunAddon;
 import me.bunnky.idreamofeasy.listeners.IdolListener;
 import me.bunnky.idreamofeasy.listeners.MagnetoidListener;
 import me.bunnky.idreamofeasy.slimefun.setup.Setup;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
@@ -17,7 +16,7 @@ public class IDreamOfEasy extends JavaPlugin implements SlimefunAddon {
     private final String repo;
 
     public IDreamOfEasy() {
-        this.username = "SlimefunGuguProject";
+        this.username = "DrakesCraft-Labs";
         this.repo = "IDreamOfEasy";
     }
 
@@ -44,7 +43,6 @@ public class IDreamOfEasy extends JavaPlugin implements SlimefunAddon {
     }
 
     public void setupMetrics() {
-        Metrics metrics = new Metrics(this, 23610);
     }
 
     public void tryUpdate() {

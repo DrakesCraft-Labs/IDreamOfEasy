@@ -38,12 +38,7 @@
           </execution>
         </executions>
         <configuration>
-          <relocations>
-            <relocation>
-              <pattern>org.bstats</pattern>
-              <shadedPattern>me.bunnky.idreamofeasy</shadedPattern>
-            </relocation>
-          </relocations>
+          <relocations />
         </configuration>
       </plugin>
       <plugin>
