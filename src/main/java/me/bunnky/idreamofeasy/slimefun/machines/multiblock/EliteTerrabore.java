@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import me.bunnky.idreamofeasy.utils.MundosPermitidos;
 /*
 Description: The Elite Terrabore is a variant of the Terrabore. It works in a 21x21 radius and mines everything. Requires uranium as a fuel source
  */
@@ -33,6 +34,11 @@ public class EliteTerrabore extends IndustrialMiner {
 
     @Override
     public boolean canMine(@NotNull Block b) {
+        // Fuera de los mundos permitidos no excava nada. Ver MundosPermitidos.
+        if (!MundosPermitidos.puedeExcavar(b)) {
+            return false;
+        }
+
         return b.getType().getHardness() >= 0 &&
             b.getType().isSolid() &&
             !BlockStorage.hasBlockInfo(b);

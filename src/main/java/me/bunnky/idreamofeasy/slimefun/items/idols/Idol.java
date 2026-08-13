@@ -32,9 +32,9 @@ public abstract class Idol extends SlimefunItem {
             String idolName = this.getItemName();
 
             if (messagingEnabled) {
-                p.sendMessage(IDOEUtility.PREFIX + idolName + " §a消息已启用");
+                p.sendMessage(IDOEUtility.PREFIX + idolName + " §amensajes activados");
             } else {
-                p.sendMessage(IDOEUtility.PREFIX + idolName + " §c消息已禁用");
+                p.sendMessage(IDOEUtility.PREFIX + idolName + " §cmensajes desactivados");
             }
         });
     }

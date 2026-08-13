@@ -46,7 +46,7 @@ public class WisterShears extends SlimefunItem {
                     e.setCancelled(true);
 
                     if (p.hasCooldown(Material.SHEARS)) {
-                        p.sendMessage("§c你必须等待一段时间才能再次使用该物品。");
+                        p.sendMessage("§cTienes que esperar un poco para volver a usarlo.");
                         return;
                     }
                     handleShearing(entity);

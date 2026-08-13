@@ -87,7 +87,7 @@ public abstract class MobRepeller extends SlimefunItem implements Listener, Ener
                 String chunkKey = getChunkKey(chunk);
                 repellerChunks.add(chunkKey);
 
-                blockPlaceEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + "§e将不再于该区块中生成。");
+                blockPlaceEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + "§eya no aparecerá en este chunk.");
             }
         });
 
@@ -100,7 +100,7 @@ public abstract class MobRepeller extends SlimefunItem implements Listener, Ener
                 String chunkKey = getChunkKey(chunk);
                 repellerChunks.remove(chunkKey);
 
-                blockBreakEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + "§e将恢复于该区块中的生成。");
+                blockBreakEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + "§evuelve a aparecer en este chunk.");
             }
         });
 

@@ -4,6 +4,7 @@ import com.github.drakescraft_labs.slimefun4.api.items.ItemGroup;
 import com.github.drakescraft_labs.slimefun4.api.items.SlimefunItemStack;
 import com.github.drakescraft_labs.slimefun4.implementation.items.multiblocks.miner.IndustrialMiner;
 import me.bunnky.idreamofeasy.utils.MaterialUtility;
+import me.bunnky.idreamofeasy.utils.MundosPermitidos;
 import com.github.drakescraft_labs.slimefun4.legacy.api.BlockStorage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -27,6 +28,11 @@ public class Terrabore extends IndustrialMiner {
 
     @Override
     public boolean canMine(@NotNull Block b) {
+        // Fuera de los mundos permitidos no excava nada. Ver MundosPermitidos.
+        if (!MundosPermitidos.puedeExcavar(b)) {
+            return false;
+        }
+
         return b.getType().getHardness() >= 0 &&
             b.getType().isSolid() &&
             !BlockStorage.hasBlockInfo(b);

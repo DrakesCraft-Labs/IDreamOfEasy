@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import me.bunnky.idreamofeasy.utils.MundosPermitidos;
 /*
 Description: The Advanced Terrabore is a variant of the Terrabore. It works in an 11x11 radius and mines everything but ores. Requires lava, oil, or fuel.
  */
@@ -33,6 +34,11 @@ public class AdvancedTerrabore extends IndustrialMiner {
 
     @Override
     public boolean canMine(@NotNull Block b) {
+        // Fuera de los mundos permitidos no excava nada. Ver MundosPermitidos.
+        if (!MundosPermitidos.puedeExcavar(b)) {
+            return false;
+        }
+
         return !SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(b.getType()) &&
             b.getType().getHardness() >= 0 &&
             b.getType().isSolid() &&

@@ -31,7 +31,7 @@ public class IDreamOfEasy extends JavaPlugin implements SlimefunAddon {
         getLogger().info(" ┃  ┃┃┣┫┣ ┣┫┃┃┃  ┃┃┣   ┣ ┣┫┗┓┗┫ ");
         getLogger().info(" ┻  ┻┛┛┗┗┛┛┗┛ ┗  ┗┛┻   ┗┛┛┗┗┛┗┛ ");
         getLogger().info("        IDOE by Bunnky          ");
-        getLogger().info("    易梦 - 粘液科技简中汉化组汉化    ");
+        getLogger().info("    IDreamOfEasy - traducido para DrakesCraft    ");
         saveDefaultConfig();
 
         setupMetrics();

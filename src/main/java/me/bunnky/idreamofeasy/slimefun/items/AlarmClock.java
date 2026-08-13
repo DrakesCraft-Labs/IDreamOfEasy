@@ -42,22 +42,22 @@ public class AlarmClock extends SlimefunItem {
 
                 if (!alarmMode.get(playerId)) {
                     cancelAlarm(playerId);
-                    p.sendMessage("§c闹钟已禁用。");
+                    p.sendMessage("§cDespertador desactivado.");
                 } else {
-                    p.sendMessage("§a闹钟已启用。");
+                    p.sendMessage("§aDespertador activado.");
                 }
             } else {
-                p.sendMessage("§a输入秒数");
+                p.sendMessage("§aEscribe los segundos");
 
                 ChatInput.waitForPlayer(IDreamOfEasy.getInstance(), p, msg -> {
                     try {
                         long duration = Long.parseLong(msg) * 1000;
                         long endTime = System.currentTimeMillis() + duration;
                         playerTimers.put(playerId, endTime);
-                        p.sendMessage("§e定时器已设置为§f" + duration / 1000 + "§e秒。");
+                        p.sendMessage("§eTemporizador puesto en §f" + duration / 1000 + "§e segundos.");
                         startTimer(p);
                     } catch (NumberFormatException ex) {
-                        p.sendMessage("§c无效的输入，请输入有效的数字。");
+                        p.sendMessage("§cEntrada no válida, escribe un número.");
                     }
                 });
             }

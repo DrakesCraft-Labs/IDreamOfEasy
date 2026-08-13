@@ -33,7 +33,7 @@ public class TomeOfEnlightenment extends SimpleSlimefunItem<ItemUseHandler> {
                 List<Research> unlockableResearches = getAffordableResearch(player, profile);
 
                 if (unlockableResearches.isEmpty()) {
-                    player.sendMessage("§c经验不足或你已解锁所有研究。");
+                    player.sendMessage("§cNo tienes experiencia suficiente, o ya lo has desbloqueado todo.");
                     return;
                 }
 

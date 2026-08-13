@@ -1,2 +1,20 @@
 options:
-  auto-update: true
+  # El autoactualizador se descargaba el jar de blob.build y se reemplazaba solo al arrancar,
+  # pisando los arreglos y las traducciones de este servidor.
+  auto-update: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Excavadoras (Tuneladora, Avanzada y de Elite)
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Estas maquinas minan TODO lo solido, no solo minerales, en areas de hasta 21x21. Respetan
+# WorldGuard y ProtectionStones -- no rompen nada protegido -- pero en terreno libre no hacen
+# mineria: hacen terraformado. El 12-08 un grupo dejo el End irreconocible en una tarde.
+#
+# LISTA BLANCA: solo funcionan en los mundos que se escriban aqui. Vacio = no funcionan en
+# ninguno. Es a proposito: con lista negra, cada mundo nuevo quedaria abierto por olvido, y el
+# olvido se paga en terreno que no vuelve.
+#
+# Si quieres un mundo de recursos donde valga todo, creale uno y ponlo aqui.
+excavadoras:
+  mundos-permitidos: []

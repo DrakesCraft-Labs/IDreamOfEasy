@@ -50,13 +50,13 @@ public class DivineIdol extends Idol {
             Map<Enchantment, Integer> enchantments = e.getEnchantsToAdd();
             enchantments.replaceAll((enchantment, level) -> Math.min(level + 1, enchantment.getMaxLevel()));
 
-            sendMessage(p, this.getItemName() + ": §r§a强化附魔!");
+            sendMessage(p, this.getItemName() + ": §r§a¡Encantamiento reforzado!");
             if ((Tag.ITEMS_PICKAXES.isTagged(type) ||
                 Tag.ITEMS_SHOVELS.isTagged(type) ||
                 Tag.ITEMS_AXES.isTagged(type) ||
                 Tag.ITEMS_HOES.isTagged(type)) && random.nextDouble() < 0.2) {
                 enchantments.put(Enchantment.FORTUNE, random.nextInt(3) + 1);
-                sendMessage(p, this.getItemName() + ": §r§a已添加时运 II 附魔!");
+                sendMessage(p, this.getItemName() + ": §r§a¡Fortuna II añadida!");
             }
         }
     }
@@ -67,7 +67,7 @@ public class DivineIdol extends Idol {
         Player p = e.getPlayer();
         if (random.nextDouble() < 0.2) {
             e.setAmount(e.getAmount() * 2);
-            sendMessage(p, this.getItemName() + ": §r§a双倍经验！");
+            sendMessage(p, this.getItemName() + ": §r§a¡Experiencia doble!");
         }
     }
 
@@ -81,7 +81,7 @@ public class DivineIdol extends Idol {
             if (item.getDurability() >= item.getType().getMaxDurability() - 1) {
                 e.setCancelled(true);
                 item.setDurability((short) 0);
-                sendMessage(p, this.getItemName() + ": §r§a已保住 " + item.getItemMeta().getDisplayName() + "§r§a!");
+                sendMessage(p, this.getItemName() + ": §r§aSalvado " + item.getItemMeta().getDisplayName() + "§r§a!");
             }
         }
     }
