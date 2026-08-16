@@ -17,4 +17,5 @@ options:
 #
 # Si quieres un mundo de recursos donde valga todo, creale uno y ponlo aqui.
 excavadoras:
-  mundos-permitidos: []
+  mundos-permitidos:
+    - world
