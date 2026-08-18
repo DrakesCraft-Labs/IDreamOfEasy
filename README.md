@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/banner.svg" alt="IDreamOfEasy" width="100%"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/DrakesCraft-Labs/IDreamOfEasy/main/banner.svg" alt="IDreamOfEasy" width="100%"></p>
 
 # IDreamOfEasy
 
