@@ -8,6 +8,7 @@ import com.github.drakescraft_labs.slimefun4.core.handlers.EntityInteractHandler
 import com.github.drakescraft_labs.slimefun4.core.handlers.ToolUseHandler;
 import me.bunnky.idreamofeasy.utils.IDOEUtility;
 import com.github.drakescraft_labs.slimefun4.legacy.api.BlockStorage;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -30,6 +31,7 @@ public class WisterShears extends SlimefunItem {
 
     private static final int COOLDOWN_TICKS = 100; // 5 Seconds
     private static final int LEAF_RADIUS = 5;
+    private static final Particle.Spell LEAF_BREAK_PARTICLE = new Particle.Spell(Color.PURPLE, 1.0F);
 
     public WisterShears(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
@@ -97,7 +99,16 @@ public class WisterShears extends SlimefunItem {
                             BlockStorage.clearBlockInfo(b);
                         }
                         b.breakNaturally(new ItemStack(Material.SHEARS));
-                        w.spawnParticle(Particle.INSTANT_EFFECT, b.getLocation(), 2, 0.2, 0.2, 0.2, 0.1);
+                        w.spawnParticle(
+                            Particle.INSTANT_EFFECT,
+                            b.getLocation(),
+                            2,
+                            0.2,
+                            0.2,
+                            0.2,
+                            0.1,
+                            LEAF_BREAK_PARTICLE
+                        );
                     }
                 }
             }
