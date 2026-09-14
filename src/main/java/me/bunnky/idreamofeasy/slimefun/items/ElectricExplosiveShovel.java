@@ -53,7 +53,6 @@ public class ElectricExplosiveShovel extends ExplosiveShovel implements Recharge
 
     @Override
     protected boolean canBreak(@NotNull Player p, @NotNull Block b) {
-        ItemStack itemInHand = p.getInventory().getItemInMainHand();
-        return removeItemCharge(itemInHand, COST) && super.canBreak(p, b);
+        return super.canBreak(p, b);
     }
 }

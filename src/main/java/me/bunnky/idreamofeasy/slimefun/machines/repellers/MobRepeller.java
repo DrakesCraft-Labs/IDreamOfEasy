@@ -34,7 +34,7 @@ Generalized devices that prevent specific mobs from spawning in the surrounding 
 
 public abstract class MobRepeller extends SlimefunItem implements Listener, EnergyNetComponent {
 
-    private final Set<String> repellerChunks = new HashSet<>();
+    private final java.util.Map<Location, String> activeRepellers = new java.util.concurrent.ConcurrentHashMap<>();
     private final int cap;
     private final int ecost;
 
@@ -60,20 +60,14 @@ public abstract class MobRepeller extends SlimefunItem implements Listener, Ener
                     return;
                 }
 
+                Chunk chunk = b.getChunk();
+                String chunkKey = getChunkKey(chunk);
+
                 if (getCharge(loc) >= ecost) {
                     removeCharge(loc, ecost);
-
-                    Chunk chunk = b.getChunk();
-                    String chunkKey = getChunkKey(chunk);
-                    if (!repellerChunks.contains(chunkKey)) {
-                        repellerChunks.add(chunkKey);
-                    }
+                    activeRepellers.put(loc, chunkKey);
                 } else {
-                    Chunk chunk = b.getChunk();
-                    String chunkKey = getChunkKey(chunk);
-                    if (repellerChunks.contains(chunkKey)) {
-                        repellerChunks.remove(chunkKey);
-                    }
+                    activeRepellers.remove(loc);
                 }
             }
         });
@@ -81,13 +75,7 @@ public abstract class MobRepeller extends SlimefunItem implements Listener, Ener
         addItemHandler(new BlockPlaceHandler(false) {
             @Override
             public void onPlayerPlace(@NotNull BlockPlaceEvent blockPlaceEvent) {
-                Block b = blockPlaceEvent.getBlock();
-                Chunk chunk = b.getChunk();
-
-                String chunkKey = getChunkKey(chunk);
-                repellerChunks.add(chunkKey);
-
-                blockPlaceEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + "§eya no aparecerá en este chunk.");
+                blockPlaceEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + " §eya no aparecerá en este chunk mientras el repulsor tenga energía.");
             }
         });
 
@@ -95,12 +83,8 @@ public abstract class MobRepeller extends SlimefunItem implements Listener, Ener
             @Override
             public void onPlayerBreak(@NotNull BlockBreakEvent blockBreakEvent, @NotNull ItemStack itemStack, @NotNull List<ItemStack> list) {
                 Block b = blockBreakEvent.getBlock();
-                Chunk chunk = b.getChunk();
-
-                String chunkKey = getChunkKey(chunk);
-                repellerChunks.remove(chunkKey);
-
-                blockBreakEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + "§evuelve a aparecer en este chunk.");
+                activeRepellers.remove(b.getLocation());
+                blockBreakEvent.getPlayer().sendMessage(ChatColor.YELLOW + getRepelledEntityName() + " §evuelve a aparecer en este chunk.");
             }
         });
 
@@ -120,7 +104,7 @@ public abstract class MobRepeller extends SlimefunItem implements Listener, Ener
             Chunk chunk = e.getLocation().getChunk();
             String chunkKey = getChunkKey(chunk);
 
-            if (repellerChunks.contains(chunkKey)) {
+            if (activeRepellers.containsValue(chunkKey)) {
                 e.setCancelled(true);
             }
         }

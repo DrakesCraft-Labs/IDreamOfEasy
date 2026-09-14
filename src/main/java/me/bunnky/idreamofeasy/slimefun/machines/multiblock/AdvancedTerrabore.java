@@ -33,6 +33,15 @@ public class AdvancedTerrabore extends IndustrialMiner {
     }
 
     @Override
+    public void onInteract(org.bukkit.entity.Player p, Block b) {
+        if (!MundosPermitidos.puedeExcavar(b)) {
+            p.sendMessage("§c[IDreamOfEasy] ¡La Tuneladora Avanzada no puede operar en este mundo!");
+            return;
+        }
+        super.onInteract(p, b);
+    }
+
+    @Override
     public boolean canMine(@NotNull Block b) {
         // Fuera de los mundos permitidos no excava nada. Ver MundosPermitidos.
         if (!MundosPermitidos.puedeExcavar(b)) {
@@ -40,6 +49,7 @@ public class AdvancedTerrabore extends IndustrialMiner {
         }
 
         return !SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(b.getType()) &&
+            b.getType() != Material.ANCIENT_DEBRIS &&
             b.getType().getHardness() >= 0 &&
             b.getType().isSolid() &&
             !BlockStorage.hasBlockInfo(b);

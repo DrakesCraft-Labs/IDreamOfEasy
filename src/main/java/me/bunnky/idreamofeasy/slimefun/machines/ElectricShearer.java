@@ -44,6 +44,9 @@ public class ElectricShearer extends SlimefunItem implements EnergyNetComponent 
 
             @Override
             public void tick(Block b, SlimefunItem sfItem, Config config) {
+                if (getCharge(b.getLocation()) < ecost) {
+                    return;
+                }
                 shearSheep(b.getLocation(), range);
             }
         });
@@ -52,14 +55,23 @@ public class ElectricShearer extends SlimefunItem implements EnergyNetComponent 
 
     private void shearSheep(Location loc, int range) {
         Bukkit.getScheduler().runTask(IDreamOfEasy.getInstance(), () -> {
+            if (getCharge(loc) < ecost) {
+                return;
+            }
             for (Entity entity : loc.getNearbyEntities(range, range, range)) {
                 if (entity.getType() == EntityType.SHEEP) {
                     if (entity.getLocation().distance(loc) <= range) {
                         Sheep sheep = (Sheep) entity;
                         if (!sheep.isSheared()) {
+                            if (getCharge(loc) < ecost) {
+                                break;
+                            }
                             sheep.setSheared(true);
+                            removeCharge(loc, ecost);
 
-                            Material woolMaterial = Material.valueOf(sheep.getColor().name() + "_WOOL");
+                            org.bukkit.DyeColor color = sheep.getColor();
+                            String colorName = color != null ? color.name() : "WHITE";
+                            Material woolMaterial = Material.valueOf(colorName + "_WOOL");
                             ItemStack wool = new ItemStack(woolMaterial, 1);
 
                             entity.getWorld().dropItemNaturally(entity.getLocation(), wool);

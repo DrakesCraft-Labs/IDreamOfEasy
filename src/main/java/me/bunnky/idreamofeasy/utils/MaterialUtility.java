@@ -33,11 +33,10 @@ public class MaterialUtility {
         }
 
         public int getRandomAmount() {
-            if (minAmount == maxAmount) {
+            if (minAmount >= maxAmount) {
                 return minAmount;
             }
-            Random random = ThreadLocalRandom.current();
-            return random.nextInt(minAmount, maxAmount);
+            return ThreadLocalRandom.current().nextInt(minAmount, maxAmount + 1);
         }
 
     }
@@ -71,6 +70,8 @@ public class MaterialUtility {
         dropMap.put(Material.NETHER_QUARTZ_ORE, new DropInfo(Material.QUARTZ, 1, 1));
         dropMap.put(Material.NETHER_GOLD_ORE, new DropInfo(Material.GOLD_NUGGET, 2, 6));
         dropMap.put(Material.ANCIENT_DEBRIS, new DropInfo(Material.ANCIENT_DEBRIS, 1, 1));
+        dropMap.put(Material.GLOWSTONE, new DropInfo(Material.GLOWSTONE_DUST, 2, 4));
+        dropMap.put(Material.AMETHYST_CLUSTER, new DropInfo(Material.AMETHYST_SHARD, 4, 4));
 
         return dropMap;
     }

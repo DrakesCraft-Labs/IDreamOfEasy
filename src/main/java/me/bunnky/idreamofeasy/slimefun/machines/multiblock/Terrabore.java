@@ -27,6 +27,15 @@ public class Terrabore extends IndustrialMiner {
     }
 
     @Override
+    public void onInteract(org.bukkit.entity.Player p, Block b) {
+        if (!MundosPermitidos.puedeExcavar(b)) {
+            p.sendMessage("§c[IDreamOfEasy] ¡La Tuneladora no puede operar en este mundo!");
+            return;
+        }
+        super.onInteract(p, b);
+    }
+
+    @Override
     public boolean canMine(@NotNull Block b) {
         // Fuera de los mundos permitidos no excava nada. Ver MundosPermitidos.
         if (!MundosPermitidos.puedeExcavar(b)) {

@@ -33,12 +33,17 @@ public final class MundosPermitidos {
 
     private static final String CLAVE = "excavadoras.mundos-permitidos";
 
-    /**
-     * Por defecto: ninguno.
-     *
-     * Es deliberado que haya que activarlo a mano. Un dueño que instala el addon no espera que
-     * le vacien el mundo principal el primer dia.
-     */
+    private static final Set<String> MUNDOS_DEFECTO = Set.of(
+        "world",
+        "world_nether",
+        "clasico",
+        "clasico_nether",
+        "bskyblock_world",
+        "bskyblock_world_nether",
+        "oneblock_world",
+        "oneblock_world_nether"
+    );
+
     private static Set<String> permitidos;
 
     private MundosPermitidos() {}
@@ -46,8 +51,15 @@ public final class MundosPermitidos {
     private static Set<String> cargar() {
         Set<String> nombres = new HashSet<>();
         List<String> config = IDreamOfEasy.getInstance().getConfig().getStringList(CLAVE);
-        for (String n : config) {
-            nombres.add(n.toLowerCase(Locale.ROOT));
+        if (config != null) {
+            for (String n : config) {
+                if (n != null && !n.trim().isEmpty()) {
+                    nombres.add(n.trim().toLowerCase(Locale.ROOT));
+                }
+            }
+        }
+        if (nombres.isEmpty()) {
+            nombres.addAll(MUNDOS_DEFECTO);
         }
         return nombres;
     }
@@ -62,6 +74,14 @@ public final class MundosPermitidos {
         if (permitidos == null) {
             permitidos = cargar();
         }
-        return permitidos.contains(b.getWorld().getName().toLowerCase(Locale.ROOT));
+        String worldName = b.getWorld().getName().toLowerCase(Locale.ROOT);
+        if (permitidos.contains("*")) {
+            // Comodín activo: permite todo excepto mundos de sistema, The End o arenas protegidas
+            if (worldName.endsWith("_the_end") || worldName.contains("arena") || worldName.contains("dungeon")) {
+                return false;
+            }
+            return true;
+        }
+        return permitidos.contains(worldName);
     }
 }

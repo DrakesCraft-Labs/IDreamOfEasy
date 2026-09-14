@@ -97,48 +97,51 @@ public class PlayerHopper extends SimpleSlimefunItem<BlockTicker> implements Ene
                         ploc.getZ() >= blockCenterZ + zMin && ploc.getZ() <= blockCenterZ + zMax) {
 
                         org.bukkit.block.Hopper h = (org.bukkit.block.Hopper) b.getState();
-                        ItemStack[] items = p.getInventory().getContents();
-                        ItemStack[] hItems = h.getInventory().getContents();
-                        int emptySlots = (int) Arrays.stream(hItems).filter(Objects::isNull).count();
-
-                        if (!(h.getInventory().getViewers().isEmpty())){
+                        if (!(h.getInventory().getViewers().isEmpty())) {
                             return;
                         }
 
-                        for (ItemStack item : items) {
-                            if (item != null && getCharge(loc) >= ecost) {
-                                ItemStack offhandItem = p.getInventory().getItemInOffHand();
-                                ItemStack[] armorContents = p.getInventory().getArmorContents();
+                        ItemStack[] storage = p.getInventory().getStorageContents();
+                        ItemStack offhandItem = p.getInventory().getItemInOffHand();
 
-                                boolean isArmorOrOffhand = false;
-
-                                for (ItemStack armorItem : armorContents) {
-                                    if (armorItem != null && item.isSimilar(armorItem)) {
-                                        isArmorOrOffhand = true;
-                                        break;
-                                    }
+                        for (int slot = 0; slot < storage.length; slot++) {
+                            ItemStack item = storage[slot];
+                            if (item != null && item.getAmount() > 0 && getCharge(loc) >= ecost) {
+                                if (offhandItem != null && item.isSimilar(offhandItem)) {
+                                    continue;
                                 }
 
-                                if (!isArmorOrOffhand && !item.isSimilar(offhandItem) && emptySlots > 0) {
-                                    HashMap<Integer, ItemStack> leftover = h.getInventory().addItem(item);
+                                int initialAmount = item.getAmount();
+                                ItemStack toTransfer = item.clone();
+                                HashMap<Integer, ItemStack> leftover = h.getInventory().addItem(toTransfer);
 
-                                    if (leftover.isEmpty()) {
-                                        p.getInventory().removeItem(item);
-                                        removeCharge(loc, ecost);
-                                        emptySlots--;
-                                        b.getWorld().spawnParticle(Particle.CRIT, b.getLocation().add(0.5, 1, 0.5), 10, 0.3, 0.3, 0.3, 0.05);
-                                        playSound = true;
-                                    } else {
-                                        for (ItemStack remaining : leftover.values()) {
-                                            p.getInventory().addItem(remaining);
+                                int leftoverAmount = 0;
+                                if (!leftover.isEmpty()) {
+                                    for (ItemStack left : leftover.values()) {
+                                        if (left != null) {
+                                            leftoverAmount += left.getAmount();
                                         }
                                     }
+                                }
 
-                                    if (playSound && !silent.getValue()) {
-                                        SoundEffect.INFUSED_HOPPER_TELEPORT_SOUND.playAt(b);
+                                int transferred = initialAmount - leftoverAmount;
+                                if (transferred > 0) {
+                                    int remaining = initialAmount - transferred;
+                                    if (remaining <= 0) {
+                                        p.getInventory().setItem(slot, null);
+                                    } else {
+                                        item.setAmount(remaining);
+                                        p.getInventory().setItem(slot, item);
                                     }
+                                    removeCharge(loc, ecost);
+                                    b.getWorld().spawnParticle(Particle.CRIT, b.getLocation().add(0.5, 1, 0.5), 10, 0.3, 0.3, 0.3, 0.05);
+                                    playSound = true;
                                 }
                             }
+                        }
+
+                        if (playSound && !silent.getValue()) {
+                            SoundEffect.INFUSED_HOPPER_TELEPORT_SOUND.playAt(b);
                         }
                     }
                 }

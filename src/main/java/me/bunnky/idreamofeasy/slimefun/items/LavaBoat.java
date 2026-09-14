@@ -77,6 +77,14 @@ public class LavaBoat extends SlimefunItem implements Listener {
         boat.setFireTicks(0);
     }
 
+    private void cleanTeamEntry(Boat boat) {
+        Scoreboard sb = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team team = sb.getTeam("LavaBoats");
+        if (team != null) {
+            team.removeEntry(boat.getUniqueId().toString());
+        }
+    }
+
     @EventHandler
     public void onBoatDestroy(@NotNull VehicleDestroyEvent e) {
         if (e.getVehicle() instanceof Boat boat && boat.hasMetadata("lava_boat")) {
@@ -85,6 +93,7 @@ public class LavaBoat extends SlimefunItem implements Listener {
                 return;
             }
             e.setCancelled(true);
+            cleanTeamEntry(boat);
             boat.removeMetadata("lava_boat", IDreamOfEasy.getInstance());
             boat.remove();
 
@@ -101,6 +110,7 @@ public class LavaBoat extends SlimefunItem implements Listener {
 
             if (e.getTo().clone().subtract(0, 0.1, 0).getBlock().getType() == Material.WATER ||
                 e.getTo().clone().add(0,0.1,0).getBlock().getType() == Material.WATER) {
+                cleanTeamEntry(boat);
                 boat.removeMetadata("lava_boat", IDreamOfEasy.getInstance());
                 boat.remove();
                 ItemStack sfItem = SlimefunItem.getById("IDOE_LAVABOAT").getItem();
@@ -122,23 +132,25 @@ public class LavaBoat extends SlimefunItem implements Listener {
 
     @EventHandler
     public void onCombust(EntityCombustEvent e) {
-        //Fireproof the LavaBoat item
-        SlimefunItem sfItem = SlimefunItem.getById("IDOE_LAVABOAT");
-        if (sfItem instanceof LavaBoat) {
-            e.setCancelled(true);
+        // Fireproof the dropped LavaBoat item
+        if (e.getEntity() instanceof Item item) {
+            SlimefunItem sfItem = SlimefunItem.getByItem(item.getItemStack());
+            if (sfItem instanceof LavaBoat) {
+                e.setCancelled(true);
+                return;
+            }
         }
 
-        //Make sure player is only checked if driving a lava_boat
+        // Make sure player is only checked if driving a lava_boat
         if (e.getEntity() instanceof Player p) {
             if (p.isInsideVehicle() && p.getVehicle() instanceof Boat boat && boat.hasMetadata("lava_boat")) {
                 e.setCancelled(true);
                 p.setFireTicks(0);
-            } else {
-                e.setCancelled(false);
+                return;
             }
         }
 
-        //Check empty boat, as well as boat with passenger
+        // Check empty boat, as well as boat with passenger
         if (e.getEntity() instanceof Boat boat && boat.hasMetadata("lava_boat")) {
             e.setCancelled(true);
             boat.setFireTicks(0);
@@ -147,7 +159,6 @@ public class LavaBoat extends SlimefunItem implements Listener {
                 for (Entity passenger : boat.getPassengers()) {
                     if (passenger instanceof Player) {
                         passenger.setFireTicks(0);
-                        e.setCancelled(true);
                     }
                 }
             }

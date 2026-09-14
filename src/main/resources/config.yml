@@ -19,3 +19,10 @@ options:
 excavadoras:
   mundos-permitidos:
     - world
+    - world_nether
+    - clasico
+    - clasico_nether
+    - bskyblock_world
+    - bskyblock_world_nether
+    - oneblock_world
+    - oneblock_world_nether

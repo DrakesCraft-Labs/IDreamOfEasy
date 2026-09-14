@@ -67,7 +67,8 @@ public class StackDispenser extends SlimefunItem {
 
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(IDreamOfEasy.getInstance(), new Runnable() {
                 public void run() {
-                    for (ItemStack itemStack : inv.getContents()) {
+                    for (int slot = 0; slot < inv.getSize(); slot++) {
+                        ItemStack itemStack = inv.getItem(slot);
                         if (itemStack != null && itemStack.getAmount() > 0) {
                             int maxStackSize = itemStack.getMaxStackSize();
                             int amountToDispense = Math.min(itemStack.getAmount(), maxStackSize);
@@ -79,9 +80,12 @@ public class StackDispenser extends SlimefunItem {
                                 dispenser.getWorld().dropItem(facedBlock.getLocation().add(0.5, 0.5, 0.5), stackToDispense);
                             }
 
-                            itemStack.setAmount(itemStack.getAmount() - amountToDispense);
-                            if (inv.containsAtLeast(itemStack, 1)) {
-                                inv.removeItem(itemStack);
+                            int remaining = itemStack.getAmount() - amountToDispense;
+                            if (remaining <= 0) {
+                                inv.setItem(slot, null);
+                            } else {
+                                itemStack.setAmount(remaining);
+                                inv.setItem(slot, itemStack);
                             }
                             break;
                         }

@@ -56,6 +56,7 @@ public class TorrentIdol extends Idol {
                         if (e instanceof EntityDamageByEntityEvent entity &&
                             entity.getDamager() instanceof Projectile projectile && !(entity.getDamager() instanceof Trident)) {
                             if (random.nextDouble() < 0.6) {
+                                e.setCancelled(true);
                                 returnProjectile(p, projectile);
                                 sendMessage(p, this.getItemName() + ": §r§a¡Proyectil rebotado!");
                             }

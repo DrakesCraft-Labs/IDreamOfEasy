@@ -123,7 +123,7 @@ public class ElectricCable extends SlimefunItem implements EnergyNetComponent {
             entity.setVelocity(dir);
 
             loc.getWorld().playSound(loc, Sound.ENTITY_ARROW_HIT, 0.5F, 5.0F);
-            loc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, loc.add(0.5, 0.5, 0.5), 10, 0.3, 0.3, 0.3, 0.1);
+            loc.getWorld().spawnParticle(Particle.ELECTRIC_SPARK, loc.clone().add(0.5, 0.5, 0.5), 10, 0.3, 0.3, 0.3, 0.1);
         }
     }
 

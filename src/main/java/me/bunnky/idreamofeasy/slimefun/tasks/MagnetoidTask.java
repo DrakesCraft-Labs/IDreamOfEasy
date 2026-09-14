@@ -61,7 +61,7 @@ public class MagnetoidTask extends BukkitRunnable {
     }
 
     protected boolean isValid() {
-        return p.isOnline() || p.getGameMode() != GameMode.SPECTATOR;
+        return p.isOnline() && p.getGameMode() != GameMode.SPECTATOR;
     }
 
     private boolean isValidItem(Item i) {

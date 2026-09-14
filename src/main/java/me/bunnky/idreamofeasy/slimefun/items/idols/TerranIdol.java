@@ -99,7 +99,13 @@ public class TerranIdol extends Idol {
                 if (random.nextDouble() < 0.2) {
                     e.setDropItems(false);
 
-                    ItemStack cropDrop = new ItemStack(type, 2);
+                    Material dropMaterial = switch (type) {
+                        case COCOA -> Material.COCOA_BEANS;
+                        case MELON -> Material.MELON_SLICE;
+                        default -> type;
+                    };
+                    int amount = (type == Material.MELON) ? (6 + (fortuneLevel > 0 ? random.nextInt(fortuneLevel * 2 + 1) : 0)) : 2;
+                    ItemStack cropDrop = new ItemStack(dropMaterial, amount);
                     e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), cropDrop);
 
                     sendMessage(p, this.getItemName() + ": §r§a¡Cosecha doble!");
