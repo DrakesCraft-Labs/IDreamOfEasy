@@ -107,7 +107,8 @@ public class BiomeCompass extends SimpleSlimefunItem<ItemUseHandler> {
             return null;
         }
 
-        int radius = Math.max(500, r.getValue());
+        int configured = r.getValue();
+        int radius = (configured <= 100) ? 2500 : configured;
         Location nearest = null;
 
         // Paper API nativa: búsqueda por noise sampling en vez de iterar 40,000 bloques
